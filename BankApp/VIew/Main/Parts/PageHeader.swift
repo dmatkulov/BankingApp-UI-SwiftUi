@@ -1,28 +1,11 @@
 //
-//  ContentView.swift
+//  PageHeader.swift
 //  BankApp
 //
-//  Created by Dilshad Matkulov on 27/4/26.
+//  Created by Dilshad Matkulov on 28/4/26.
 //
 
 import SwiftUI
-
-struct ContentView: View {
-    var body: some View {
-        ScrollView{
-            VStack(alignment: .leading){
-                PageHeader()
-            }
-            .padding(.horizontal, 20)
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(.mainBG)
-    }
-}
-
-#Preview {
-    ContentView()
-}
 
 struct PageHeader: View {
     var body: some View {
@@ -38,13 +21,13 @@ struct PageHeader: View {
             
             Spacer()
             
-            HStack{
+            HStack(spacing: 10){
                 Button{
                     //
                 } label: {
                     ZStack{
                         Circle()
-                            .fill(.white)
+                            .fill(Color(hex: "f9f9f9"))
                             .frame(width: 60, height: 60)
                         Image(systemName: "magnifyingglass")
                             .resizable()
@@ -59,7 +42,7 @@ struct PageHeader: View {
                 } label: {
                     ZStack{
                         Circle()
-                            .fill(.white)
+                            .fill(Color(hex: "f9f9f9"))
                             .frame(width: 60, height: 60)
                         Image(systemName: "bell")
                             .resizable()
