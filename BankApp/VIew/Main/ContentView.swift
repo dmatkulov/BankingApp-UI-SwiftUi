@@ -7,22 +7,6 @@
 
 import SwiftUI
 
-struct User: Identifiable, Hashable {
-    var id: UUID = UUID()
-    var name: String
-    var image: String
-    
-    static var mockData: [User] {
-        [
-            User(name: "James", image: "user-01"),
-            User(name: "Blake", image: "user-02"),
-            User(name: "Jake", image: "user-03"),
-            User(name: "Luke", image: "user-04"),
-            User(name: "Jack", image: "user-05")
-        ]
-    }
-}
-
 struct ContentView: View {
     var body: some View {
         ScrollView{
@@ -54,7 +38,7 @@ struct ContentView: View {
                         AddButtonView()
                     }
                     
-                    VStack(alignment: .leading) {
+                    VStack(alignment: .leading, spacing: 18) {
                         HStack{
                             Text("Quick Send")
                                 .font(type: .medium, size: 20)
@@ -74,6 +58,38 @@ struct ContentView: View {
                     .background(Color(hex: "##2F352A"))
                     .clipShape(RoundedRectangle(cornerRadius: 20))
                     
+                    VStack(alignment: .leading){
+                        HStack{
+                            Text("Recent Transactions")
+                                .font(type: .medium, size: 20)
+                                .foregroundStyle(.white)
+                            Spacer()
+                            SeeAllButton()
+                        }
+                        VStack(alignment: .leading, spacing: 20){
+                            ForEach(Payment.mockData) { payment in
+                                ActivityItem(payment: payment)
+                                Divider()
+                                    .background(.gray)
+                            }
+                        }
+                        .padding(20)
+                        .frame(maxWidth: .infinity)
+                        .background(Color(hex: "##2F352A"))
+                        .clipShape(RoundedRectangle(cornerRadius: 20))
+                        .overlay(alignment: .top) {
+                            CutView()
+                                .fill(.mainBG)
+                                .frame(width: 50, height: 10)
+                                .overlay{
+                                    RoundedRectangle(cornerRadius: 10)
+                                        .fill(Color(hex: "##2F352A"))
+                                        .frame(width: 20, height: 1)
+                                }
+                        }
+                    }
+                    
+                    
                 }
             }
             .padding(EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 10))
@@ -87,21 +103,5 @@ struct ContentView: View {
     ContentView()
 }
 
-struct UserView: View {
-    var user: User
-    var body: some View {
-        Button{
-            print("\(user.name) clicked")
-        } label: {
-            VStack{
-                Image(user.image)
-                    .resizable()
-                    .frame(width: 50, height: 50)
-                    .clipShape(Circle())
-                Text(user.name)
-                    .font(type: .regular, size: 14)
-                    .foregroundStyle(Color(hex: "#B5B7B2"))
-            }
-        }
-    }
-}
+
+
