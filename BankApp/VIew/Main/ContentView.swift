@@ -7,13 +7,28 @@
 
 import SwiftUI
 
+struct User: Identifiable, Hashable {
+    var id: UUID = UUID()
+    var name: String
+    var image: String
+    
+    static var mockData: [User] {
+        [
+            User(name: "James", image: "user-01"),
+            User(name: "Blake", image: "user-02"),
+            User(name: "Jake", image: "user-03"),
+            User(name: "Luke", image: "user-04"),
+            User(name: "Jack", image: "user-05")
+        ]
+    }
+}
+
 struct ContentView: View {
     var body: some View {
         ScrollView{
             VStack(alignment: .leading){
                 VStack(alignment: .leading, spacing: 24){
                     PageHeader()
-                    
                     VStack(alignment: .leading, spacing: 4){
                         Text("Welcome Back 👋")
                             .foregroundStyle(Color(hex: "#B5B7B2"))
@@ -23,22 +38,45 @@ struct ContentView: View {
                     }
                     .foregroundStyle(.white)
                     
-                    MyShape()
-                        .fill(
-                            LinearGradient(
-                                    colors: [
-                                        Color(hex: "#29301C"),
-                                    Color(hex: "##3F4638")
-                                    ],
-                                    startPoint: UnitPoint.top,
-                                    endPoint: UnitPoint.bottom)
-                            )
-                        .frame(height: 230)
+                    ZStack(alignment: .bottomTrailing){
+                        CardViewContent()
+                            .background(
+                                LinearGradient(
+                                        colors: [
+                                            Color(hex: "#29301C"),
+                                        Color(hex: "##3F4638")
+                                        ],
+                                        startPoint: UnitPoint.top,
+                                        endPoint: UnitPoint.bottom)
+                                )
+                            .clipShape(CardView(cornerRadius: 20, notchRadius: 20))
+                            .frame(minHeight: 230)
+                        AddButtonView()
+                    }
                     
+                    VStack(alignment: .leading) {
+                        HStack{
+                            Text("Quick Send")
+                                .font(type: .medium, size: 20)
+                                .foregroundStyle(.white)
+                            Spacer()
+                            SeeAllButton()
+                        }
+                        
+                        HStack{
+                            ForEach(User.mockData) { user in
+                                UserView(user: user)
+                                    .frame(maxWidth: .infinity)
+                            }
+                        }
+                    }
+                    .padding(20)
+                    .background(Color(hex: "##2F352A"))
+                    .clipShape(RoundedRectangle(cornerRadius: 20))
                     
                 }
             }
-            .padding(.horizontal, 20)
+            .padding(EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 10))
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(.mainBG)
@@ -49,26 +87,21 @@ struct ContentView: View {
     ContentView()
 }
 
-
-struct MyShape: Shape {
-    func path(in rect: CGRect) -> Path {
-        var path = Path()
-        let width = rect.size.width
-        let height = rect.size.height
-        path.move(to: CGPoint(x: 0.93158*width, y: 0))
-        path.addCurve(to: CGPoint(x: width, y: 0.11304*height), control1: CGPoint(x: 0.96937*width, y: 0), control2: CGPoint(x: width, y: 0.05061*height))
-        path.addLine(to: CGPoint(x: width, y: 0.75217*height))
-        path.addCurve(to: CGPoint(x: 0.96579*width, y: 0.8087*height), control1: CGPoint(x: width, y: 0.78339*height), control2: CGPoint(x: 0.98468*width, y: 0.8087*height))
-        path.addLine(to: CGPoint(x: 0.72842*width, y: 0.8087*height))
-        path.addCurve(to: CGPoint(x: 0.694*width, y: 0.8382*height), control1: CGPoint(x: 0.71473*width, y: 0.8087*height), control2: CGPoint(x: 0.70189*width, y: 0.8197*height))
-        path.addLine(to: CGPoint(x: 0.63758*width, y: 0.9705*height))
-        path.addCurve(to: CGPoint(x: 0.60316*width, y: height), control1: CGPoint(x: 0.62969*width, y: 0.989*height), control2: CGPoint(x: 0.61685*width, y: height))
-        path.addLine(to: CGPoint(x: 0.06842*width, y: height))
-        path.addCurve(to: CGPoint(x: 0, y: 0.88696*height), control1: CGPoint(x: 0.03063*width, y: height), control2: CGPoint(x: 0, y: 0.94939*height))
-        path.addLine(to: CGPoint(x: 0, y: 0.11304*height))
-        path.addCurve(to: CGPoint(x: 0.06842*width, y: 0), control1: CGPoint(x: 0, y: 0.05061*height), control2: CGPoint(x: 0.03063*width, y: 0))
-        path.addLine(to: CGPoint(x: 0.93158*width, y: 0))
-        path.closeSubpath()
-        return path
+struct UserView: View {
+    var user: User
+    var body: some View {
+        Button{
+            print("\(user.name) clicked")
+        } label: {
+            VStack{
+                Image(user.image)
+                    .resizable()
+                    .frame(width: 50, height: 50)
+                    .clipShape(Circle())
+                Text(user.name)
+                    .font(type: .regular, size: 14)
+                    .foregroundStyle(Color(hex: "#B5B7B2"))
+            }
+        }
     }
 }

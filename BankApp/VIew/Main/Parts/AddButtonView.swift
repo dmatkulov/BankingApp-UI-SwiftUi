@@ -1,7 +1,16 @@
+//
+//  AddButtonView.swift
+//  BankApp
+//
+//  Created by Dilshad Matkulov on 3/5/26.
+//
+
+import SwiftUI
+
 struct AddButtonView: View {
     var body: some View {
         Button {
-            //
+            print("Add Card btn clicked")
         } label: {
             HStack{
                 ZStack{

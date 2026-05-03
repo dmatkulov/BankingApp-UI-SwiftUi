@@ -1,3 +1,12 @@
+//
+//  CardViewContent.swift
+//  BankApp
+//
+//  Created by Dilshad Matkulov on 3/5/26.
+//
+
+import SwiftUI
+
 struct CardViewContent: View {
      var body: some View {
         VStack(alignment: .leading){
@@ -31,7 +40,7 @@ struct CardViewContent: View {
                 Spacer()
                 
                 Button {
-                    //
+                    print("NFC btn is clicked")
                 } label: {
                     RoundedRectangle(cornerRadius: 16)
                         .fill(Color(hex: "#C1EF00"))
